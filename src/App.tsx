@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import styled from 'styled-components'
+import { Game } from './components/Game'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding-bottom: 50px;
+`
+
+const H1 = styled.h1`
+	padding-top: 10px;
+`
+
+export const App = () => {
+	return (
+		<Wrapper className="App">
+			{/* TODO - Selector for Yatzy or Maxi Yatzy */}
+			{/* TODO - Selector for language */}
+			<H1>MAXI YATZY</H1>
+			<Game />
+		</Wrapper>
+	)
 }
-
-export default App;
