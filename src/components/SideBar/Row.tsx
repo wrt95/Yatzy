@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { RowWrapper } from '../RowWrapper/RowWrapper'
+import { BASE_BREAKPOINT_MOBILE } from '../../utils/breakpoint'
 
 interface IText {
 	hasBoldText: boolean
@@ -7,10 +8,13 @@ interface IText {
 }
 
 const Text = styled.p<IText>`
-	font-size: 16px;
+	font-size: 12px;
 	font-weight: ${(props) => (props.hasBoldText ? '800' : '400')};
-	width: 100%;
 	text-align: ${(props) => props.centerText && 'center'};
+
+	@media only screen and (min-width: ${BASE_BREAKPOINT_MOBILE}) {
+		font-size: 16px;
+	}
 `
 
 interface Props {
