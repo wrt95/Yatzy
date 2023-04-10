@@ -26,6 +26,8 @@ export const Player = () => {
 		Number(five) +
 		Number(six)
 
+	const bonus = 100
+
 	const [onePair, setOnePair] = useState('')
 	const [twoPairs, setTwoPairs] = useState('')
 	const [threePairs, setThreePairs] = useState('')
@@ -43,6 +45,7 @@ export const Player = () => {
 
 	const totalSum =
 		(isNaN(sum) ? 0 : sum) +
+		(!isNaN(sum) && sum > 83 ? bonus : 0) +
 		Number(onePair) +
 		Number(twoPairs) +
 		Number(threePairs) +
@@ -72,7 +75,7 @@ export const Player = () => {
 				hasThickTopBorder
 			/>
 			<DisplayRow
-				text={!isNaN(sum) && sum > 83 ? '100' : '0'}
+				text={!isNaN(sum) && sum > 83 ? bonus.toString() : '0'}
 				hasThickTopBorder={false}
 			/>
 			<InputRow value={onePair} setValue={(v) => setOnePair(v)} />
