@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { InputRow } from './InputRow'
-import { Row as ReadOnlyRow } from '../SideBar/Row'
+import { DisplayRow } from './DisplayRow'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -67,18 +67,13 @@ export const Player = () => {
 			<InputRow value={four} setValue={(v) => setFour(v)} />
 			<InputRow value={five} setValue={(v) => setFive(v)} />
 			<InputRow value={six} setValue={(v) => setSix(v)} />
-			<ReadOnlyRow
+			<DisplayRow
 				text={!isNaN(sum) ? sum.toString() : '0'}
-				isSmall
-				hasThickRightBorder={false}
 				hasThickTopBorder
-				centerText
 			/>
-			<ReadOnlyRow
+			<DisplayRow
 				text={!isNaN(sum) && sum > 83 ? '100' : '0'}
-				isSmall
-				hasThickRightBorder={false}
-				centerText
+				hasThickTopBorder={false}
 			/>
 			<InputRow value={onePair} setValue={(v) => setOnePair(v)} />
 			<InputRow value={twoPairs} setValue={(v) => setTwoPairs(v)} />
@@ -97,12 +92,9 @@ export const Player = () => {
 			<InputRow value={tower} setValue={(v) => setTower(v)} />
 			<InputRow value={chance} setValue={(v) => setChance(v)} />
 			<InputRow value={maxiYatzy} setValue={(v) => setMaxiYatzy(v)} />
-			<ReadOnlyRow
+			<DisplayRow
 				text={!isNaN(totalSum) ? totalSum.toString() : '0'}
-				isSmall
-				hasThickRightBorder={false}
 				hasThickTopBorder
-				centerText
 			/>
 		</Wrapper>
 	)

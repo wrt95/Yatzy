@@ -5,21 +5,19 @@ interface IWrapper {
 	hasThickTopBorder: boolean
 }
 const Wrapper = styled.div<IWrapper>`
-	margin: 0;
-	padding-block: 2px;
-	width: 39px;
-	height: 20px;
-	border: 0.5px solid black;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border: 0.5px solid black;
+	width: 39px;
+	height: 20.2px;
+	border-top: ${(props) => props.hasThickTopBorder && '4px solid black'};
+	padding-block: 2px;
 `
 
-const Input = styled.input`
-	text-align: center;
+const Text = styled.p`
 	font-size: 12px;
-	width: 35px;
-	border: none;
+	text-align: center;
 
 	@media only screen and (min-width: ${BASE_BREAKPOINT_MOBILE}) {
 		font-size: 16px;
@@ -27,22 +25,14 @@ const Input = styled.input`
 `
 
 interface Props {
-	value: string
-	setValue: (s: string) => void
-	hasThickTopBorder?: boolean
+	text: string
+	hasThickTopBorder: boolean
 }
 
-export const InputRow = ({
-	value,
-	setValue,
-	hasThickTopBorder = false
-}: Props) => {
+export const DisplayRow = ({ text, hasThickTopBorder }: Props) => {
 	return (
 		<Wrapper hasThickTopBorder={hasThickTopBorder}>
-			<Input
-				value={value === undefined ? '' : value}
-				onChange={(e) => setValue(e.target.value)}
-			/>
+			<Text>{text}</Text>
 		</Wrapper>
 	)
 }

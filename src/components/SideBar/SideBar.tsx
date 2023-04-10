@@ -1,8 +1,13 @@
 import { Row } from './Row'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+	border-right: 4px solid black;
+`
 
 export const SideBar = () => {
 	return (
-		<div>
+		<Wrapper>
 			<Row text="" />
 			<Row text="Enere" />
 			<Row text="Toere" />
@@ -27,6 +32,6 @@ export const SideBar = () => {
 			<Row text="Sjanse" />
 			<Row text="Maxiyatzy" hasBoldText />
 			<Row text="Totalsum" hasThickTopBorder />
-		</div>
+		</Wrapper>
 	)
 }

@@ -1,6 +1,26 @@
 import styled from 'styled-components'
-import { RowWrapper } from '../RowWrapper/RowWrapper'
 import { BASE_BREAKPOINT_MOBILE } from '../../utils/breakpoint'
+
+interface IWrapper {
+	hasThickTopBorder: boolean
+	isSmall: boolean
+}
+const Wrapper = styled.div<IWrapper>`
+	display: flex;
+	align-items: center;
+	margin: 0;
+	border: 0.5px solid black;
+	border-top: ${(props) => props.hasThickTopBorder && '4px solid black'};
+	width: 100px;
+	height: 20px;
+	padding-inline: 5px;
+	padding-block: 2.02px;
+
+	@media only screen and (min-width: ${BASE_BREAKPOINT_MOBILE}) {
+		width: 130px;
+		padding-inline: 10px;
+	}
+`
 
 interface IText {
 	hasBoldText: boolean
@@ -20,7 +40,6 @@ const Text = styled.p<IText>`
 interface Props {
 	text: string
 	hasThickTopBorder?: boolean
-	hasThickRightBorder?: boolean
 	hasBoldText?: boolean
 	isSmall?: boolean
 	centerText?: boolean
@@ -30,19 +49,14 @@ export const Row = ({
 	text,
 	hasThickTopBorder = false,
 	hasBoldText = false,
-	hasThickRightBorder = true,
 	isSmall = false,
 	centerText = false
 }: Props) => {
 	return (
-		<RowWrapper
-			hasThickTopBorder={hasThickTopBorder}
-			hasThickRightBorder={hasThickRightBorder}
-			isSmall={isSmall}
-		>
+		<Wrapper hasThickTopBorder={hasThickTopBorder} isSmall={isSmall}>
 			<Text hasBoldText={hasBoldText} centerText={centerText}>
 				{text}
 			</Text>
-		</RowWrapper>
+		</Wrapper>
 	)
 }
