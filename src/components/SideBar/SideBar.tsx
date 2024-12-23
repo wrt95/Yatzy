@@ -5,7 +5,11 @@ const Wrapper = styled.div`
 	border-right: 4px solid black;
 `
 
-export const SideBar = () => {
+type SideBarProps = {
+	showTotalScore: boolean
+}
+
+export const SideBar = ({ showTotalScore }: SideBarProps) => {
 	return (
 		<Wrapper>
 			<Row text="" />
@@ -31,7 +35,7 @@ export const SideBar = () => {
 			<Row text="Tårn (2 + 4 like)" />
 			<Row text="Sjanse" />
 			<Row text="Maxiyatzy" hasBoldText />
-			<Row text="Totalsum" hasThickTopBorder />
+			{showTotalScore && <Row text="Totalsum" hasThickTopBorder />}
 		</Wrapper>
 	)
 }

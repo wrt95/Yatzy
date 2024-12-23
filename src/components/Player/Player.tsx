@@ -2,6 +2,15 @@ import { useState } from 'react'
 import { InputRow } from './InputRow'
 import { DisplayRow } from './DisplayRow'
 import styled from 'styled-components'
+import { PlayerStats } from '../../types/PlayerStats'
+import {
+	calculateBonus,
+	calculateSum,
+	calculateTotalSum,
+	getPlayerBonusString,
+	getPlayerSumString,
+	initialPlayer
+} from '../../utils/playerUtils'
 
 const Wrapper = styled.div`
 	display: flex;
@@ -9,96 +18,147 @@ const Wrapper = styled.div`
 	align-items: center;
 `
 
-export const Player = () => {
-	const [name, setName] = useState('')
-	const [one, setOne] = useState('')
-	const [two, setTwo] = useState('')
-	const [three, setThree] = useState('')
-	const [four, setFour] = useState('')
-	const [five, setFive] = useState('')
-	const [six, setSix] = useState('')
+type PlayerProps = {
+	showTotalScore: boolean
+}
 
-	const sum =
-		Number(one) +
-		Number(two) +
-		Number(three) +
-		Number(four) +
-		Number(five) +
-		Number(six)
+export const Player = ({ showTotalScore }: PlayerProps) => {
+	const [player, setPlayer] = useState<PlayerStats>(initialPlayer)
 
-	const bonus = 100
+	const handleInputChange = (field: keyof PlayerStats, value: string) => {
+		setPlayer((prevPlayer) => {
+			const updatedPlayer = { ...prevPlayer, [field]: value }
 
-	const [onePair, setOnePair] = useState('')
-	const [twoPairs, setTwoPairs] = useState('')
-	const [threePairs, setThreePairs] = useState('')
-	const [threeOfaKind, setThreeOfaKind] = useState('')
-	const [fourOfAKind, setFourOfaKind] = useState('')
-	const [fiveOfaKind, setFiveOfAKind] = useState('')
-	const [smallStraight, setSmallStraight] = useState('')
-	const [bigStraight, setBigStraight] = useState('')
-	const [fullStraight, setFullStraight] = useState('')
-	const [cabin, setCabin] = useState('')
-	const [house, setHouse] = useState('')
-	const [tower, setTower] = useState('')
-	const [chance, setChance] = useState('')
-	const [maxiYatzy, setMaxiYatzy] = useState('')
+			const sum = calculateSum(updatedPlayer)
+			const bonus = calculateBonus(sum)
+			const totalSum = calculateTotalSum(updatedPlayer, sum, bonus)
 
-	const totalSum =
-		(isNaN(sum) ? 0 : sum) +
-		(!isNaN(sum) && sum > 83 ? bonus : 0) +
-		Number(onePair) +
-		Number(twoPairs) +
-		Number(threePairs) +
-		Number(threeOfaKind) +
-		Number(fourOfAKind) +
-		Number(fiveOfaKind) +
-		Number(smallStraight) +
-		Number(bigStraight) +
-		Number(fullStraight) +
-		Number(cabin) +
-		Number(house) +
-		Number(tower) +
-		Number(chance) +
-		Number(maxiYatzy)
+			return {
+				...updatedPlayer,
+				sum: sum.toString(),
+				bonus: bonus.toString(),
+				totalScore: totalSum.toString()
+			}
+		})
+	}
 
 	return (
 		<Wrapper>
-			<InputRow value={name} setValue={(v) => setName(v)} />
-			<InputRow value={one} setValue={(v) => setOne(v)} />
-			<InputRow value={two} setValue={(v) => setTwo(v)} />
-			<InputRow value={three} setValue={(v) => setThree(v)} />
-			<InputRow value={four} setValue={(v) => setFour(v)} />
-			<InputRow value={five} setValue={(v) => setFive(v)} />
-			<InputRow value={six} setValue={(v) => setSix(v)} />
-			<DisplayRow
-				text={!isNaN(sum) ? sum.toString() : '0'}
-				hasThickTopBorder
+			<InputRow
+				value={player.name}
+				setValue={(name: string) => handleInputChange('name', name)}
 			/>
+			<InputRow
+				value={player.one}
+				setValue={(one: string) => handleInputChange('one', one)}
+			/>
+			<InputRow
+				value={player.two}
+				setValue={(two: string) => handleInputChange('two', two)}
+			/>
+			<InputRow
+				value={player.three}
+				setValue={(three: string) => handleInputChange('three', three)}
+			/>
+			<InputRow
+				value={player.four}
+				setValue={(four: string) => handleInputChange('four', four)}
+			/>
+			<InputRow
+				value={player.five}
+				setValue={(five: string) => handleInputChange('five', five)}
+			/>
+			<InputRow
+				value={player.six}
+				setValue={(six: string) => handleInputChange('six', six)}
+			/>
+			<DisplayRow text={getPlayerSumString(player.sum)} hasThickTopBorder />
 			<DisplayRow
-				text={!isNaN(sum) && sum > 83 ? bonus.toString() : '0'}
+				text={getPlayerBonusString(player.sum)}
 				hasThickTopBorder={false}
 			/>
-			<InputRow value={onePair} setValue={(v) => setOnePair(v)} />
-			<InputRow value={twoPairs} setValue={(v) => setTwoPairs(v)} />
-			<InputRow value={threePairs} setValue={(v) => setThreePairs(v)} />
-			<InputRow value={threeOfaKind} setValue={(v) => setThreeOfaKind(v)} />
-			<InputRow value={fourOfAKind} setValue={(v) => setFourOfaKind(v)} />
-			<InputRow value={fiveOfaKind} setValue={(v) => setFiveOfAKind(v)} />
 			<InputRow
-				value={smallStraight}
-				setValue={(v) => setSmallStraight(v)}
+				value={player.onePair}
+				setValue={(onePair: string) =>
+					handleInputChange('onePair', onePair)
+				}
 			/>
-			<InputRow value={bigStraight} setValue={(v) => setBigStraight(v)} />
-			<InputRow value={fullStraight} setValue={(v) => setFullStraight(v)} />
-			<InputRow value={cabin} setValue={(v) => setCabin(v)} />
-			<InputRow value={house} setValue={(v) => setHouse(v)} />
-			<InputRow value={tower} setValue={(v) => setTower(v)} />
-			<InputRow value={chance} setValue={(v) => setChance(v)} />
-			<InputRow value={maxiYatzy} setValue={(v) => setMaxiYatzy(v)} />
-			<DisplayRow
-				text={!isNaN(totalSum) ? totalSum.toString() : '0'}
-				hasThickTopBorder
+			<InputRow
+				value={player.twoPairs}
+				setValue={(twoPairs: string) =>
+					handleInputChange('twoPairs', twoPairs)
+				}
 			/>
+			<InputRow
+				value={player.threePairs}
+				setValue={(threePairs: string) =>
+					handleInputChange('threePairs', threePairs)
+				}
+			/>
+			<InputRow
+				value={player.threeOfAKind}
+				setValue={(threeOfAKind: string) =>
+					handleInputChange('threeOfAKind', threeOfAKind)
+				}
+			/>
+			<InputRow
+				value={player.fourOfAKind}
+				setValue={(fourOfAKind: string) =>
+					handleInputChange('fourOfAKind', fourOfAKind)
+				}
+			/>
+			<InputRow
+				value={player.fiveOfAKind}
+				setValue={(fiveOfAKind: string) =>
+					handleInputChange('fiveOfAKind', fiveOfAKind)
+				}
+			/>
+			<InputRow
+				value={player.smallStraight}
+				setValue={(smallStraight: string) =>
+					handleInputChange('smallStraight', smallStraight)
+				}
+			/>
+			<InputRow
+				value={player.bigStraight}
+				setValue={(bigStraight: string) =>
+					handleInputChange('bigStraight', bigStraight)
+				}
+			/>
+			<InputRow
+				value={player.fullStraight}
+				setValue={(fullStraight: string) =>
+					handleInputChange('fullStraight', fullStraight)
+				}
+			/>
+			<InputRow
+				value={player.cabin}
+				setValue={(cabin: string) => handleInputChange('cabin', cabin)}
+			/>
+			<InputRow
+				value={player.house}
+				setValue={(house: string) => handleInputChange('house', house)}
+			/>
+			<InputRow
+				value={player.tower}
+				setValue={(tower: string) => handleInputChange('tower', tower)}
+			/>
+			<InputRow
+				value={player.chance}
+				setValue={(chance: string) => handleInputChange('chance', chance)}
+			/>
+			<InputRow
+				value={player.maxiYatzy}
+				setValue={(maxiYatzy: string) =>
+					handleInputChange('maxiYatzy', maxiYatzy)
+				}
+			/>
+			{showTotalScore && (
+				<DisplayRow
+					text={getPlayerSumString(player.totalScore)}
+					hasThickTopBorder
+				/>
+			)}
 		</Wrapper>
 	)
 }
